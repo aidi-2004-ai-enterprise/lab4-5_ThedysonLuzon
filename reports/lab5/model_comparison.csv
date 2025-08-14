@@ -1,0 +1,7 @@
+model,set,roc_auc,pr_auc,brier,f1_at_thresh,threshold
+LogisticRegression,test,0.9194,0.3613,0.0952,0.4082,0.9174
+LogisticRegression,train,0.9548,0.444,0.0918,0.5112,0.9174
+RandomForest,test,0.9561,0.5398,0.0226,0.4706,0.5741
+RandomForest,train,0.9998,0.9942,0.0079,0.9805,0.5741
+XGBoost,test,0.9501,0.5236,0.0243,0.087,0.9889
+XGBoost,train,1.0,1.0,0.0002,1.0,0.9889
