@@ -15,7 +15,7 @@
 ## Feature Selection (Why)
 - Correlation pruning to reduce redundancy and stabilize LR.
 - No PCA for trees; minimal transforms keep interpretability.
-- Kept features logged to `selected_features.txt`.
+- Kept features logged to selected_features.txt.
 - Consistent prep across models for fair comparison.
 
 ## Hyperparameter Tuning (Why)
@@ -26,23 +26,24 @@
 
 ## Training (Why)
 - Three models trained: LR (benchmark), RF, XGB.
-- Thresholds chosen on train probabilities to maximize F1.
-- Artifacts saved in `artifacts/` (*.joblib, *_params.json).
+- Thresholds chosen on train probabilities to maximize F1 (demo speed).
+- Artifacts saved in artifacts/ (*.joblib, *_params.json).
 - Reproducible seeds set globally.
 
 ## Evaluation & Comparison (Why)
 - Report ROC-AUC, PR-AUC, Brier, F1@threshold on train/test.
 - Overlay ROC + calibration curves to check generalization & prob quality.
 - Compare train vs test gaps for over/underfitting signs.
-- `model_comparison.csv` provides a summary table.
+- model_comparison.csv provides a summary table.
 
 ## SHAP (Why)
 - SHAP computed for best model: XGBoost (small sample for speed).
-- Global summary + bar plots saved (`figures/`).
+- Global summary + bar plots saved (figures/).
 - Use to align top drivers with business risk.
+- Local explanations optional if needed.
 
 ## PSI (Why)
-- PSI per feature saved (`psi_table.csv`) + top plot (`psi_top.png`).
+- PSI per feature saved (psi_table.csv) + top plot (psi_top.png).
 - Thresholds: <0.1 stable; 0.1–0.25 watch; >0.25 action.
 - Highlights drift candidates for monitoring.
 - Supports deployment readiness discussion.
@@ -51,6 +52,7 @@
 - Imbalance vs precision–recall trade-offs.
 - Calibration sensitivity for LR; trees more robust.
 - Compute kept low via small CV & grids; SHAP sampled.
+- Next: fuller tuning & monitoring in production.
 
 ## Metric Comparison Table
 
@@ -62,13 +64,6 @@
 | RandomForest       | train |    0.9998 |   0.9942 |  0.0079 |         0.9805 |      0.5741 |
 | XGBoost            | test  |    0.9501 |   0.5236 |  0.0243 |         0.087  |      0.9889 |
 | XGBoost            | train |    1      |   1      |  0.0002 |         1      |      0.9889 |
-
-## Recommend: Random Forest (with threshold ≈ 0.5741).
-
-- **Best test discrimination**: ROC-AUC `0.9561` (top) and PR-AUC `0.5398` (top) → strongest ranking under class imbalance.
-- **Better probability quality**: lowest test `Brier 0.0226` → more reliable probabilities than LR (0.0952) and slightly better than XGB (0.0243).
-- **Operationally usable out-of-the-box**: test `F1 0.4706` at the chosen threshold; XGB’s `F1 0.087` suggests a poor threshold transfer/generalization.
-- **Generalization vs. overfit**: both tree models overfit on train (~1.0 AUC), but RF `holds up better` on test than XGB (higher ROC/PR and far better F1).
 
 ## Figures
 - cal_LogisticRegression.png
